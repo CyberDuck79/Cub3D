@@ -6,58 +6,52 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/11 13:13:50 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/02 17:36:49 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/03 15:55:19 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Cub3D.h"
+#include "utils.h"
 
-int pos_x = 50;
-int pos_y = 50;
-
-static void	print_square(t_env *env, int x, int y)
+static int	key_press(int key)
 {
-	t_line *line;
-
-	line = line_init(vect2_init(x, y), vect2_init(x, y + 10));
-	draw_line(env, line, 0x00FFFFFF);
-	change_line_coord(line, x, y + 10, x + 10, y + 10);
-	draw_line(env, line, 0x00FFFFFF);
-	change_line_coord(line, x + 10, y + 10, x + 10, y);
-	draw_line(env, line, 0x00FFFFFF);
-	change_line_coord(line, x + 10, y, x, y);
-	draw_line(env, line, 0x00FFFFFF);
-	mlx_put_image_to_window(env->mp, env->wp, env->img->ip, 0, 0);
-	free_line(line);
-}
-
-static int	events(int key, t_env *env)
-{
-	if (key == S_KEY)
-		pos_y += 2;
-	else if (key == W_KEY)
-		pos_y -= 2;
-	else if (key == D_KEY)
-		pos_x += 2;
-	else if (key == A_KEY)
-		pos_x -= 2;
-	if (key == W_KEY || key == S_KEY || key == D_KEY || key == A_KEY)
-	{
-		clear_env(env);
-		print_square(env, pos_x, pos_y);
-	}
 	if (key == ESCAPE_KEY)
-		del_env(env);
+		exit(1);
 	return (0);
 }
 
-int			main(void)
+static int	loop(t_cub *cub)
+{
+	(void)cub;
+	return (0);
+}
+
+static int	close_window(void)
+{
+	exit(1);
+	return (0);
+}
+
+static void	cub3D_init(t_env *env, t_cub *cub)
+{
+	cub->env = env;
+	mlx_do_key_autorepeaton(env->mp);
+	mlx_do_sync(env->mp);
+}
+
+int			main(int ac, char **av)
 {
 	t_env	env;
+	t_cub	cub;
 
-	new_env(&env, WIN_X, WIN_Y, "Cub3D");
-	print_square(&env, pos_x, pos_y);
-	mlx_key_hook(env.wp, events, &env);
+	// faire le resize
+	if (ac != 3 || (env.wx = atoi(av[1])) < 1 || (env.wx = atoi(av[2])) < 1)
+		return (0);
+	new_env(&env, env.wx, env.wx, "Cub3D");
+	cub3D_init(&env, &cub);
+	mlx_hook(env.wp, X_BUTTON_EVENT, (1L<<17), close_window, &env);
+	mlx_hook(env.wp, KEY_PRESS_EVENT, (1L<<0), key_press, &cub);
+	mlx_loop_hook(env.mp, loop, &cub);
 	mlx_loop(env.mp);
 	return (0);
 }
