@@ -5,53 +5,92 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/11 13:13:50 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/03 15:55:19 by fhenrion         ###   ########.fr       */
+/*   Created: 2020/01/07 14:20:33 by fhenrion          #+#    #+#             */
+/*   Updated: 2020/01/07 15:28:44 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Cub3D.h"
-#include "utils.h"
+#include "libft/libft.h"
+#include "cub3D.h"
 
-static int	key_press(int key)
-{
-	if (key == ESCAPE_KEY)
-		exit(1);
-	return (0);
-}
-
-static int	loop(t_cub *cub)
-{
-	(void)cub;
-	return (0);
-}
-
-static int	close_window(void)
+static int	ft_close(void)
 {
 	exit(1);
 	return (0);
 }
 
-static void	cub3D_init(t_env *env, t_cub *cub)
+static int	print_error(t_error *error)
 {
-	cub->env = env;
-	mlx_do_key_autorepeaton(env->mp);
-	mlx_do_sync(env->mp);
+	if (error == ARGUMENT)
+		write(1, "Error\nUsage: cub3D \"map\"\n", 25);
+	else if (error == FILE)
+		write(1, "Error\nOpening file\n", 19);
+	else if (error == EXTENSION)
+		write(1, "Error\nFile extension\n", 21);
+	else if (error == RESOLUTION)
+		write(1, "Error\nResolution\n", 17);
+	else if (error == TEXTURES)
+		write(1, "Error\nTextures opening\n", 23);
+	else if (error == COLORS)
+		write(1, "Error\nFloor or sky color\n", 25);
+	else if (error == MAP)
+		write(1, "Error\nMap format\n", 17);
+	return (0);
 }
 
-int			main(int ac, char **av)
+static void	mlx_win_init(t_cub3D *cub)
 {
-	t_env	env;
-	t_cub	cub;
+	char	*title;
 
-	// faire le resize
-	if (ac != 3 || (env.wx = atoi(av[1])) < 1 || (env.wx = atoi(av[2])) < 1)
-		return (0);
-	new_env(&env, env.wx, env.wx, "Cub3D");
-	cub3D_init(&env, &cub);
-	mlx_hook(env.wp, X_BUTTON_EVENT, (1L<<17), close_window, &env);
-	mlx_hook(env.wp, KEY_PRESS_EVENT, (1L<<0), key_press, &cub);
-	mlx_loop_hook(env.mp, loop, &cub);
-	mlx_loop(env.mp);
+	title = ft_strjoin("cub3D : ", cub->map_name);
+	cub->mlx = mlx_init();
+	cub->win = mlx_new_window(cub->mlx, WINX, WINY, title);
+	free((void*)title);
+}
+/*
+void	cub3D_init(t_cub3D *cub)
+{
+	cub->x_pos = 3;
+	cub->y_pos = 3;
+	cub->x_dir = -1;
+	cub->y_dir = 0;
+	cub->x_plane = 0;
+	cub->y_plane = 0.66;
+	cub->ms = 0.05;
+	cub->rs = 0.05;
+	cub->move_up = 0;
+	cub->move_down = 0;
+	cub->move_left = 0;
+	cub->move_right = 0;
+	cub->x_text = 0;
+	cub->y_text = 0;
+	load_textures(cub);
+}
+*/
+int		main(int ac, char **av)
+{
+	t_cub3D	cub;
+	t_error	error;
+
+	if (ac < 2)
+		return (print_error(ARGUMENT));
+	if ((error = map_parser(&cub, av[1])))
+		return (print_error(error));
+	mlx_win_init(&cub);
+	/*
+	cub.help = 1;
+	cub3D_init(&cub);
+	ray_casting(&cub);
+	if (ac == 3 && check_option(av[2]))
+		save_bmp(&cub);
+	else
+	{
+		mlx_hook(cub.win, 17, 0L, ft_close, &cub);
+		mlx_hook(cub.win, 2, (1L << 0), key_press, &cub);
+		mlx_hook(cub.win, 3, (1L << 1), key_release, &cub);
+		mlx_loop_hook(cub.mlx, move, &cub);
+		mlx_loop(cub.mlx);
+	}
+	*/
 	return (0);
 }
