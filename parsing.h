@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 15:22:31 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/18 17:47:14 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/20 17:48:38 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # define SPACES		" \t\r\n"
 # define NUMBERS	"0123456789"
 # define TOKENS		" RNOSWEAFC"
+# define MAP_DEF	"102NSEW"
 # define MIN_WINX	100
 # define MAX_WINX	2560
 # define MIN_WINY	100
@@ -45,8 +46,9 @@ typedef enum	e_option
 }				t_option;
 
 void			skip_set(const char **str, const char *set);
-int				is_valid(char c);
-int				is_start(char c);
+int				is_valid(char c, const char *set);
+int				check_border(int pos, int end, int value);
+int				parse_start(t_map *map, int x, int y);
 t_error			parse_resolution(t_cub3d *cub, const char **file);
 t_error			parse_textures(t_cub3d *cub, const char **file, t_option opt);
 t_error			parse_colors(t_cub3d *cub, const char **file, t_option opt);

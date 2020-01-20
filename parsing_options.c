@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 15:25:19 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/18 18:06:41 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/20 10:56:54 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,22 @@ static char	*get_path(const char **file)
 	if ((path = (char*)malloc(len + 1)) == NULL)
 		return (NULL);
 	ft_strlcpy(path, *file, len + 1);
+	*file += len;
 	fd = open(path, O_RDONLY);
-	if (read(fd, path, 0) < 0)
+	len = read(fd, path, 0);
+	close(fd);
+	if (len < 0)
 	{
 		free(path);
-		close(fd);
 		return (NULL);
 	}
-	close(fd);
-	*file += len;
 	return (path);
 }
 
 static void	load_textures(t_cub3d *cub, char *path, size_t index, int size)
 {
 	cub->tex[index].img = mlx_xpm_file_to_image(cub->mlx, path, &size, &size);
+	free(path);
 	cub->tex[index].data = mlx_get_data_addr(cub->tex[index].img,\
 	&cub->tex[index].bpp, &cub->tex[index].sizeline, &cub->tex[index].endian);
 }
@@ -80,7 +81,6 @@ t_error		parse_textures(t_cub3d *cub, const char **file, t_option option)
 		load_textures(cub, path, 3, 64);
 	else if (option == SPRITE)
 		load_textures(cub, path, 4, 64);
-	free(path);
 	cub->params |= option;
 	return (OK);
 }
@@ -94,12 +94,17 @@ t_error		parse_colors(t_cub3d *cub, const char **file, t_option option)
 	color.r = ft_atoi(*file);
 	if (color.r < 0x0 || color.r > 0xFF)
 		return (COLORS);
+	skip_set(file, NUMBERS);
+	skip_set(file, ",");
 	color.g = ft_atoi(*file);
 	if (color.g < 0x0 || color.g > 0xFF)
 		return (COLORS);
+	skip_set(file, NUMBERS);
+	skip_set(file, ",");
 	color.b = ft_atoi(*file);
 	if (color.b < 0x0 || color.b > 0xFF)
 		return (COLORS);
+	skip_set(file, NUMBERS);
 	if (option == FLOOR)
 		cub->color[0] = color.r | color.g << 8 | color.b << 16;
 	if (option == CEILING)

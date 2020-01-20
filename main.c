@@ -6,13 +6,21 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 14:20:33 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/18 17:59:46 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/20 18:08:37 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "cub3d.h"
 
+int		ft_close(void)
+{
+	//escape_free_map()
+	exit(1);
+	return (0);
+}
+
+//// change to perror after complete ray_casting
 static int	print_error(t_error error)
 {
 	write(1, "Error\n", 6);
@@ -35,14 +43,33 @@ static int	print_error(t_error error)
 	return (0);
 }
 
-static void	mlx_win_init(t_cub3d *cub)
+static void	cub3d_init(t_cub3d *cub)
 {
 	char	*title;
 
 	title = ft_strjoin("cub3D : ", cub->map.map_name);
-	cub->mlx = mlx_init();
+	free((void*)cub->map.map_name);
+	cub->map.map_name = NULL;
 	cub->win = mlx_new_window(cub->mlx, cub->wx, cub->wy, title);
 	free((void*)title);
+	cub->img.ptr = mlx_new_image(cub->mlx, cub->wx, cub->wy);
+	cub->img.addr = (int*)mlx_get_data_addr(cub->img.ptr, &cub->img.bpp,\
+	&cub->img.size_l, &cub->img.endian);
+	cub->img.bpp /= 8;
+	cub->cam.pos_x = (double)cub->map.start_x;
+	cub->cam.pos_y = (double)cub->map.start_y;
+	if (cub->map.start_char == 'N' || cub->map.start_char == 'S')
+	{
+		cub->cam.dir_y = cub->map.start_char == 'N' ? -1 : 1;
+		cub->cam.plane_x = cub->map.start_char == 'N' ? -0.80 : 0.80;
+	}
+	else if (cub->map.start_char == 'W' || cub->map.start_char == 'E')
+	{
+		cub->cam.dir_x = cub->map.start_char == 'W' ? -1 : 1;
+		cub->cam.plane_y = cub->map.start_char == 'W' ? -0.80 : 0.80;
+	}
+	cub->cam.ms = 0.05;
+	cub->cam.rs = 0.05;
 }
 
 int			main(int ac, char **av)
@@ -53,8 +80,12 @@ int			main(int ac, char **av)
 	if (ac < 2)
 		return (print_error(ARGUMENT));
 	ft_bzero(&cub, sizeof(t_cub3d));
+	cub.mlx = mlx_init();
 	if ((error = file_parser(&cub, av[1])))
 		return (print_error(error));
-	mlx_win_init(&cub);
+	cub3d_init(&cub);
+	mlx_hook(cub.win, 17, 0L, ft_close, &cub);
+	frame(&cub, &cub.cam);
+	mlx_loop(cub.mlx);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 17:15:07 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/18 17:49:17 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/20 17:47:02 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,18 @@ static t_error	get_mapsize(t_map *map, const char *file)
 {
 	while (*file != '\n')
 	{
-		if (is_valid(*file))
-			map->map_x++;
+		if (is_valid(*file, MAP_DEF))
+			map->x++;
 		else if (*file != ' ')
 			return (MAP);
 		file++;
 	}
 	while (*file)
 	{
-		if (!is_valid(*file) && *file != ' ' && *file != '\n')
+		if (!is_valid(*file, MAP_DEF) && *file != ' ' && *file != '\n')
 			return (MAP);
 		else if (*file == '\n')
-			map->map_y++;
+			map->y++;
 		file++;
 	}
 	return (OK);
@@ -61,22 +61,22 @@ static t_error	copy_map(t_map *map, const char *file)
 		x = 0;
 		while (*file && *file != '\n')
 		{
-			if (is_valid(*file))
+			if (is_valid(*file, MAP_DEF))
 			{
 				map->map[y][x] = *file - 48;
-				if (++x == map->map_x)
+				if (++x > map->x)
 					return (MAP);
 			}
 			file++;
 		}
-		if (++y == map->map_y || x != map->map_x - 1)
+		if (++y > map->y || x != map->x)
 			return (MAP);
 		file++;
 	}
-	return (y == map->map_y - 1 ? OK : MAP);
+	return (y == map->y ? OK : MAP);
 }
 
-static t_error	check_map(int **map, int map_x, int map_y)
+static t_error	check_map(t_map *map)
 {
 	int	x;
 	int	y;
@@ -84,17 +84,18 @@ static t_error	check_map(int **map, int map_x, int map_y)
 
 	start = 0;
 	y = 0;
-	while (y < map_y)
+	while (y < map->y)
 	{
 		x = 0;
-		while (x < map_x)
+		while (x < map->x)
 		{
-			if ((y == 0 || y == map_y - 1) && map[y][x] != '1')
+			if (check_border(y, map->y, map->map[y][x]))
 				return (MAP);
-			if ((x == 0 || x == map_x - 1) && map[y][x] != '1')
+			if (check_border(x, map->x, map->map[y][x]))
 				return (MAP);
-			if (is_start(map[y][x]))
+			if (parse_start(map, x, y))
 				start++;
+			x++;
 		}
 		y++;
 	}
@@ -105,16 +106,16 @@ t_error			parse_map(t_map *map, const char *file)
 {
 	if (get_mapsize(map, file))
 		return (MAP);
-	if ((map->map = malloc_map(map->map_x, map->map_y)) == NULL)
+	if ((map->map = malloc_map(map->x, map->y)) == NULL)
 		return (MAP);
 	if (copy_map(map, file))
 	{
-		escape_free_map(map->map, map->map_y);
+		escape_free_map(map->map, map->y);
 		return (MAP);
 	}
-	if (check_map(map->map, map->map_x, map->map_y))
+	if (check_map(map))
 	{
-		escape_free_map(map->map, map->map_y);
+		escape_free_map(map->map, map->y);
 		return (MAP);
 	}
 	return (OK);
