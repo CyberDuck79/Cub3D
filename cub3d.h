@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 14:17:32 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/23 10:11:24 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/23 11:31:15 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct	s_tex
 typedef struct	s_img
 {
 	void		*ptr;
-	void		*addr;
+	int			*addr;
 	int			bpp;
 	int			size_l;
 	int			endian;
@@ -65,7 +65,14 @@ typedef struct	s_map
 	char		start_dir;
 }				t_map;
 
-// voir pour découper la structure en sous-structures
+typedef struct	s_move
+{
+	int			up:1;
+	int			down:1;
+	int			left:1;
+	int			right:1;
+}				t_move;
+
 typedef struct	s_cub3d
 {
 	int			wx;
@@ -78,11 +85,15 @@ typedef struct	s_cub3d
 	t_img		img;
 	t_map		map;
 	t_cam		cam;
+	t_move		move;
 }				t_cub3d;
 
 int				**escape_free_map(int **map, int index_stop);
 t_error			file_parser(t_cub3d *cub, const char *filename);
 void			frame(t_cub3d *cub, t_cam *cam);
 void			draw(t_cub3d *cub, t_wall *wall, int x);
+int				key_press(int keycode, t_cub3d *cub);
+int				key_release(int keycode, t_cub3d *cub);
+int				move(t_cub3d *cub);
 
 #endif
