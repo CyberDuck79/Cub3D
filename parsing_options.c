@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 15:25:19 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/23 17:05:33 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/23 17:11:36 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ static void	load_textures(t_cub3d *cub, char *path, size_t index, int size)
 	cub->text[index].img,
 	&cub->text[index].bpp,
 	&cub->text[index].size_l,
-	&cub->text[index].endian
-	);
+	&cub->text[index].endian);
 	cub->text[index].bpp /= 8;
 }
 
