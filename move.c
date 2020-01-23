@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 11:03:43 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/23 11:33:00 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/23 13:24:55 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@
 static void	move_up(t_cub3d *cub, t_cam *cam)
 {
 
-	if (!cub->map.map[(int)(cam->pos_x + cam->dir_x * cam->ms)][(int)cam->pos_y])
+	if (!cub->map.map[(int)cam->pos_y][(int)(cam->pos_x + cam->dir_x * cam->ms)])
 		cam->pos_x += cam->dir_x * cam->ms;
-	if (!cub->map.map[(int)cam->pos_x][(int)(cam->pos_y + cam->dir_y * cam->ms)])
+	if (!cub->map.map[(int)(cam->pos_y + cam->dir_y * cam->ms)][(int)cam->pos_x])
 		cam->pos_y += cam->dir_y * cam->ms;
 }
 
 static void	move_down(t_cub3d *cub, t_cam *cam)
 {
-	if (!cub->map.map[(int)(cam->pos_x + cam->dir_x * cam->ms)][(int)cam->pos_y])
+	if (!cub->map.map[(int)cam->pos_y][(int)(cam->pos_x - cam->dir_x * cam->ms)])
 		cam->pos_x -= cam->dir_x * cam->ms;
-	if (!cub->map.map[(int)cam->pos_x][(int)(cam->pos_y + cam->dir_y * cam->ms)])
+	if (!cub->map.map[(int)(cam->pos_y - cam->dir_y * cam->ms)][(int)cam->pos_x])
 		cam->pos_y -= cam->dir_y * cam->ms;
 }
 

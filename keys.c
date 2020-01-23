@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 10:55:02 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/23 10:58:51 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/23 13:13:10 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ int				key_press(int keycode, t_cub3d *cub)
 	else if (keycode == 257 || keycode == 258)
 		cub->cam.ms = 0.1;
 	else if (keycode == 53)
-	{
-		// escape_free_map()
-		exit(1);
-	}
+		ft_close(cub);
 	return (0);
 }
 

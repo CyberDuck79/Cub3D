@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 17:16:35 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/23 09:51:58 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/23 12:07:02 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,11 @@ int		check_border(int pos, int end, int value)
 
 int		parse_start(t_map *map, int x, int y)
 {
-	if (map->map[y][x] == 21 || map->map[y][x] == 30\
-	|| map->map[y][x] == 35 || map->map[y][x] == 39)
-	{
-		map->start_x = x;
-		map->start_y = y;
-		map->start_dir = (char)(map->map[y][x] + 48);
-		map->map[y][x] = 0;
-		return (1);
-	}
-	return (0);
+	if (map->map[y][x] < 21)
+		return (0);
+	map->start_x = x;
+	map->start_y = y;
+	map->start_dir = (char)(map->map[y][x] + 48);
+	map->map[y][x] = 0;
+	return (1);
 }

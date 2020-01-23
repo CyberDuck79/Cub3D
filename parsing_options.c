@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 15:25:19 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/20 10:56:54 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/23 17:05:33 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ static char	*get_path(const char **file)
 	len = 0;
 	while ((*file)[len] && (*file)[len] != '\n')
 		len++;
-	if ((*file)[len] == '\0' || len == 0)
-		return (NULL);
 	if ((path = (char*)malloc(len + 1)) == NULL)
 		return (NULL);
 	ft_strlcpy(path, *file, len + 1);
@@ -57,10 +55,14 @@ static char	*get_path(const char **file)
 
 static void	load_textures(t_cub3d *cub, char *path, size_t index, int size)
 {
-	cub->tex[index].img = mlx_xpm_file_to_image(cub->mlx, path, &size, &size);
-	free(path);
-	cub->tex[index].data = mlx_get_data_addr(cub->tex[index].img,\
-	&cub->tex[index].bpp, &cub->tex[index].sizeline, &cub->tex[index].endian);
+	cub->text[index].img = mlx_xpm_file_to_image(cub->mlx, path, &size, &size);
+	cub->text[index].data = (int*)mlx_get_data_addr(
+	cub->text[index].img,
+	&cub->text[index].bpp,
+	&cub->text[index].size_l,
+	&cub->text[index].endian
+	);
+	cub->text[index].bpp /= 8;
 }
 
 t_error		parse_textures(t_cub3d *cub, const char **file, t_option option)
@@ -81,6 +83,7 @@ t_error		parse_textures(t_cub3d *cub, const char **file, t_option option)
 		load_textures(cub, path, 3, 64);
 	else if (option == SPRITE)
 		load_textures(cub, path, 4, 64);
+	free(path);
 	cub->params |= option;
 	return (OK);
 }

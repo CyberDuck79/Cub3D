@@ -6,16 +6,19 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 14:20:33 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/23 11:03:08 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/23 13:00:34 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "cub3d.h"
 
-int		ft_close(void)
+int			ft_close(t_cub3d *cub)
 {
-	//escape_free_map()
+	escape_free_map(cub->map.map, cub->map.y);
+	mlx_destroy_image(cub->mlx, cub->img.ptr);
+	mlx_destroy_window(cub->mlx, cub->win);
+	system("leaks a.out");
 	exit(1);
 	return (0);
 }
@@ -43,7 +46,25 @@ static int	print_error(t_error error)
 	return (0);
 }
 
-static void	cub3d_init(t_cub3d *cub)
+static void	camera_init(t_cam *cam, t_map *map)
+{
+	cam->pos_x = (double)map->start_x;
+	cam->pos_y = (double)map->start_y;
+	if (map->start_dir == 'N' || map->start_dir == 'S')
+	{
+		cam->dir_y = map->start_dir == 'N' ? -1 : 1;
+		cam->plane_x = map->start_dir == 'N' ? -0.80 : 0.80;
+	}
+	else if (map->start_dir == 'W' || map->start_dir == 'E')
+	{
+		cam->dir_x = map->start_dir == 'W' ? -1 : 1;
+		cam->plane_y = map->start_dir == 'W' ? -0.80 : 0.80;
+	}
+	cam->ms = 0.05;
+	cam->rs = 0.05;
+}
+
+static void	env_init(t_cub3d *cub)
 {
 	char	*title;
 
@@ -56,20 +77,6 @@ static void	cub3d_init(t_cub3d *cub)
 	cub->img.addr = (int*)mlx_get_data_addr(cub->img.ptr, &cub->img.bpp,\
 	&cub->img.size_l, &cub->img.endian);
 	cub->img.bpp /= 8;
-	cub->cam.pos_x = (double)cub->map.start_x;
-	cub->cam.pos_y = (double)cub->map.start_y;
-	if (cub->map.start_dir == 'N' || cub->map.start_dir == 'S')
-	{
-		cub->cam.dir_y = cub->map.start_dir == 'N' ? -1 : 1;
-		cub->cam.plane_x = cub->map.start_dir == 'N' ? -0.80 : 0.80;
-	}
-	else if (cub->map.start_dir == 'W' || cub->map.start_dir == 'E')
-	{
-		cub->cam.dir_x = cub->map.start_dir == 'W' ? -1 : 1;
-		cub->cam.plane_y = cub->map.start_dir == 'W' ? -0.80 : 0.80;
-	}
-	cub->cam.ms = 0.05;
-	cub->cam.rs = 0.05;
 }
 
 int			main(int ac, char **av)
@@ -83,11 +90,11 @@ int			main(int ac, char **av)
 	cub.mlx = mlx_init();
 	if ((error = file_parser(&cub, av[1])))
 		return (print_error(error));
-	cub3d_init(&cub);
+	env_init(&cub);
+	camera_init(&cub.cam, &cub.map);
 	mlx_hook(cub.win, 17, 0L, ft_close, &cub);
 	mlx_hook(cub.win, 2, (1L << 0), key_press, &cub);
 	mlx_hook(cub.win, 3, (1L << 1), key_release, &cub);
-	frame(&cub, &cub.cam);
 	mlx_loop_hook(cub.mlx, move, &cub);
 	mlx_loop(cub.mlx);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 11:31:28 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/23 10:38:42 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/23 15:33:33 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,10 @@ void		frame(t_cub3d *cub, t_cam *cam)
 		if (cam->wall.start >= cub->wy)
 			cam->wall.end = cub->wy - 1;
 		if (cam->ray.side)
-			cam->wall.color = 0xDD8800;
+			cam->wall.dir = cam->ray.dir_y < 0 ? 0 : 1;
 		else
-			cam->wall.color = 0x00FF00;
+			cam->wall.dir = cam->ray.dir_x < 0 ? 2 : 3;
 		draw(cub, &cam->wall, cam->ray.x);
-		//draw_sky(cub, &cam->wall, cam->ray.x);
-		//draw_wall(cub, &cam->wall, cam->ray.x);
-		//draw_floor(cub, &cam->wall, cam->ray.x);
 		cam->ray.x++;
 	}
 	cam->ray.x = 0;

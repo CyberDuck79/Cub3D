@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 14:17:32 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/23 11:31:15 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/23 16:40:16 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,16 @@ typedef enum	e_error
 	MAP
 }				t_error;
 
-typedef struct	s_tex
+typedef struct	s_text
 {
 	void		*img;
-	char		*data;
+	int			*data;
 	int			bpp;
-	int			sizeline;
+	int			size_l;
 	int			endian;
-}				t_tex;
+	int			x;
+	int			y;
+}				t_text;
 
 typedef struct	s_img
 {
@@ -81,19 +83,20 @@ typedef struct	s_cub3d
 	void		*win;
 	char		params;
 	int			color[2];
-	t_tex		tex[4];
+	t_text		text[4];
 	t_img		img;
 	t_map		map;
 	t_cam		cam;
 	t_move		move;
 }				t_cub3d;
 
-int				**escape_free_map(int **map, int index_stop);
 t_error			file_parser(t_cub3d *cub, const char *filename);
 void			frame(t_cub3d *cub, t_cam *cam);
 void			draw(t_cub3d *cub, t_wall *wall, int x);
 int				key_press(int keycode, t_cub3d *cub);
 int				key_release(int keycode, t_cub3d *cub);
 int				move(t_cub3d *cub);
+int				**escape_free_map(int **map, int index_stop);
+int				ft_close(t_cub3d *cub);
 
 #endif

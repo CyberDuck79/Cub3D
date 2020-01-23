@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 10:05:59 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/23 10:50:40 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/23 16:07:24 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ typedef struct	s_wall
 	int			height;
 	int			start;
 	int			end;
-	int			color;
+	int			dir;
+	double		x;
 }				t_wall;
 
 typedef struct	s_cam
