@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 11:31:28 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/23 10:08:29 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/23 10:38:42 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ void		frame(t_cub3d *cub, t_cam *cam)
 {
 	while (cam->ray.x < cub->wx)
 	{
-		cam->ray.x++;
 		ray_casting(cub, cam, &cam->ray);
 		cam->wall.height = (int)(cub->wy / cam->wall.dist);
 		cam->wall.start = -cam->wall.height / 2 + cub->wy / 2;
@@ -100,6 +99,7 @@ void		frame(t_cub3d *cub, t_cam *cam)
 		//draw_sky(cub, &cam->wall, cam->ray.x);
 		//draw_wall(cub, &cam->wall, cam->ray.x);
 		//draw_floor(cub, &cam->wall, cam->ray.x);
+		cam->ray.x++;
 	}
 	cam->ray.x = 0;
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img.ptr, 0, 0);

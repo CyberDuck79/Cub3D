@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 14:20:33 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/23 09:49:21 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/23 11:03:08 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		ft_close(void)
 	return (0);
 }
 
-//// change to perror after complete ray_casting
+// look at perror ?
 static int	print_error(t_error error)
 {
 	write(1, "Error\n", 6);
@@ -85,7 +85,10 @@ int			main(int ac, char **av)
 		return (print_error(error));
 	cub3d_init(&cub);
 	mlx_hook(cub.win, 17, 0L, ft_close, &cub);
+	mlx_hook(cub.win, 2, (1L << 0), key_press, &cub);
+	mlx_hook(cub.win, 3, (1L << 1), key_release, &cub);
 	frame(&cub, &cub.cam);
+	mlx_loop_hook(cub.mlx, move, &cub);
 	mlx_loop(cub.mlx);
 	return (0);
 }

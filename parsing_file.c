@@ -6,11 +6,10 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 14:30:17 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/18 18:05:05 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/23 10:35:25 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
 #include "parsing.h"
 
 static t_option	check_token(const char *str)
