@@ -6,13 +6,14 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 11:31:28 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/20 17:08:40 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/23 10:08:29 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include "ray_casting.h"
 
-void	dda_init(t_ray *ray, t_dda *dda)
+static void	dda_init(t_ray *ray, t_dda *dda)
 {
 	dda->delta_x = sqrt(1 + pow(ray->dir_y, 2) / pow(ray->dir_x, 2));
 	dda->delta_y = sqrt(1 + pow(ray->dir_x, 2) / pow(ray->dir_y, 2));
@@ -38,7 +39,7 @@ void	dda_init(t_ray *ray, t_dda *dda)
 	}
 }
 
-void	dda(int	**map, t_ray *ray)
+static void	dda(int	**map, t_ray *ray)
 {
 	dda_init(ray, &ray->dda);
 	while (1)
@@ -60,7 +61,7 @@ void	dda(int	**map, t_ray *ray)
 	}
 }
 
-void	ray_casting(t_cub3d *cub, t_cam *cam, t_ray *ray)
+static void	ray_casting(t_cub3d *cub, t_cam *cam, t_ray *ray)
 {
 	cam->cam_x = 2 * ray->x / (double)cub->wx - 1;
 	ray->pos_x = cam->pos_x;
@@ -78,7 +79,7 @@ void	ray_casting(t_cub3d *cub, t_cam *cam, t_ray *ray)
 		(1 - ray->dda.step_x) / 2) / ray->dir_x;
 }
 
-void	frame(t_cub3d *cub, t_cam *cam)
+void		frame(t_cub3d *cub, t_cam *cam)
 {
 	while (cam->ray.x < cub->wx)
 	{

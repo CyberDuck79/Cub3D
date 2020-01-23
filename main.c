@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 14:20:33 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/20 18:08:37 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/23 09:49:21 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,15 @@ static void	cub3d_init(t_cub3d *cub)
 	cub->img.bpp /= 8;
 	cub->cam.pos_x = (double)cub->map.start_x;
 	cub->cam.pos_y = (double)cub->map.start_y;
-	if (cub->map.start_char == 'N' || cub->map.start_char == 'S')
+	if (cub->map.start_dir == 'N' || cub->map.start_dir == 'S')
 	{
-		cub->cam.dir_y = cub->map.start_char == 'N' ? -1 : 1;
-		cub->cam.plane_x = cub->map.start_char == 'N' ? -0.80 : 0.80;
+		cub->cam.dir_y = cub->map.start_dir == 'N' ? -1 : 1;
+		cub->cam.plane_x = cub->map.start_dir == 'N' ? -0.80 : 0.80;
 	}
-	else if (cub->map.start_char == 'W' || cub->map.start_char == 'E')
+	else if (cub->map.start_dir == 'W' || cub->map.start_dir == 'E')
 	{
-		cub->cam.dir_x = cub->map.start_char == 'W' ? -1 : 1;
-		cub->cam.plane_y = cub->map.start_char == 'W' ? -0.80 : 0.80;
+		cub->cam.dir_x = cub->map.start_dir == 'W' ? -1 : 1;
+		cub->cam.plane_y = cub->map.start_dir == 'W' ? -0.80 : 0.80;
 	}
 	cub->cam.ms = 0.05;
 	cub->cam.rs = 0.05;

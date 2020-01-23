@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 17:16:35 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/20 17:51:10 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/23 09:51:58 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int		parse_start(t_map *map, int x, int y)
 	{
 		map->start_x = x;
 		map->start_y = y;
-		map->start_char = (char)(map->map[y][x] + 48);
+		map->start_dir = (char)(map->map[y][x] + 48);
 		map->map[y][x] = 0;
 		return (1);
 	}

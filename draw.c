@@ -6,14 +6,15 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 14:35:31 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/20 15:29:23 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/23 10:12:29 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include "ray_casting.h"
 
 //// change for textures
-void	ft_put_pixel(t_cub3d *cub, int x, int y, int color)
+static void	ft_put_pixel(t_cub3d *cub, int x, int y, int color)
 {
 	if (x < 0 || x >= cub->wx || y < 0 || y >= cub->wy)
 		return ;
@@ -47,7 +48,7 @@ void	draw_floor(t_cub3d *cub, t_wall *wall, int x)
 }
 */
 // naive draw function for test -> change for texture
-void	draw(t_cub3d *cub, t_wall *wall, int x)
+void		draw(t_cub3d *cub, t_wall *wall, int x)
 {
 	int y;
 
