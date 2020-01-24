@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 14:20:33 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/23 13:00:34 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/24 14:20:01 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,17 @@ static int	print_error(t_error error)
 
 static void	camera_init(t_cam *cam, t_map *map)
 {
-	cam->pos_x = (double)map->start_x;
-	cam->pos_y = (double)map->start_y;
+	cam->pos_x = (double)map->start_x + 0.5;
+	cam->pos_y = (double)map->start_y + 0.5;
 	if (map->start_dir == 'N' || map->start_dir == 'S')
 	{
 		cam->dir_y = map->start_dir == 'N' ? -1 : 1;
-		cam->plane_x = map->start_dir == 'N' ? -0.80 : 0.80;
+		cam->plane_x = map->start_dir == 'N' ? 0.66 : -0.66;
 	}
 	else if (map->start_dir == 'W' || map->start_dir == 'E')
 	{
 		cam->dir_x = map->start_dir == 'W' ? -1 : 1;
-		cam->plane_y = map->start_dir == 'W' ? -0.80 : 0.80;
+		cam->plane_y = map->start_dir == 'W' ? 0.66 : -0.66;
 	}
 	cam->ms = 0.05;
 	cam->rs = 0.05;
@@ -77,6 +77,7 @@ static void	env_init(t_cub3d *cub)
 	cub->img.addr = (int*)mlx_get_data_addr(cub->img.ptr, &cub->img.bpp,\
 	&cub->img.size_l, &cub->img.endian);
 	cub->img.bpp /= 8;
+	cub->time = clock();
 }
 
 int			main(int ac, char **av)

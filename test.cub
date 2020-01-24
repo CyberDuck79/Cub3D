@@ -1,11 +1,11 @@
-R 1920 1080
+R 860 640
 NO ./north_texture.xpm
 SO ./south_texture.xpm
 WE ./west_texture.xpm
 EA ./east_texture.xpm
 S ./sprite_texture.xpm
-F 220,241,0
-C 225,30,0
+F 167,167,167
+C 54,54,54
 
 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 1 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 1

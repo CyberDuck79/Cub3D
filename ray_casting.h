@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 10:05:59 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/23 16:07:24 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/24 17:28:44 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,15 @@ typedef struct	s_wall
 	double		x;
 }				t_wall;
 
+typedef struct	s_floor
+{
+	double		start_x;
+	double		start_y;
+}				t_floor;
+
 typedef struct	s_cam
 {
-	double		cam_x;
-	double		cam_y;
+	double		x;
 	double		pos_x;
 	double		pos_y;
 	double		dir_x;
@@ -60,6 +65,7 @@ typedef struct	s_cam
 	double		rs;
 	t_ray		ray;
 	t_wall		wall;
+	t_floor		floor;
 }				t_cam;
 
 #endif

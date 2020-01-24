@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 14:17:32 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/23 16:40:16 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/24 14:25:40 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include <fcntl.h>
 # include <math.h>
 # include <mlx.h>
+# include <time.h>
+# include <stdlib.h>
+# include <stdio.h>
 # include "libft/libft.h"
 # include "ray_casting.h"
 
@@ -88,6 +91,8 @@ typedef struct	s_cub3d
 	t_map		map;
 	t_cam		cam;
 	t_move		move;
+	clock_t		old_time;
+	clock_t		time;
 }				t_cub3d;
 
 t_error			file_parser(t_cub3d *cub, const char *filename);
@@ -98,5 +103,6 @@ int				key_release(int keycode, t_cub3d *cub);
 int				move(t_cub3d *cub);
 int				**escape_free_map(int **map, int index_stop);
 int				ft_close(t_cub3d *cub);
+void			print_fps(t_cub3d *cub);
 
 #endif

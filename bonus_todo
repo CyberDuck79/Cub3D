@@ -1,0 +1,9 @@
+Collision contre les murs -> OK
+Texture sur le sol ou le plafond -> OK
+Un effet d’ombre basé sur la distance -> ?
+Collision avec les objets -> faire collision si map[x][y] > 0
+Un HUD -> print une autre image par dessus
+Porte qui peuvent être ouvertes/fermées -> faire un calcul différent pour les portes (affiche un interieur de mur...) + animation ouverture + changement status collision
+minimap -> prendre une distance (11x11 ?)
+Possibilité de regarder en haut et en bas -> dans tuto french
+Sauter ou s’accroupir -> dans tuto french

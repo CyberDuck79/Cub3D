@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 11:31:28 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/23 15:33:33 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/24 15:40:38 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 static void	dda_init(t_ray *ray, t_dda *dda)
 {
-	dda->delta_x = sqrt(1 + pow(ray->dir_y, 2) / pow(ray->dir_x, 2));
-	dda->delta_y = sqrt(1 + pow(ray->dir_x, 2) / pow(ray->dir_y, 2));
+	dda->delta_x = fabs(1 / ray->dir_x);
+	dda->delta_y = fabs(1 / ray->dir_y);
 	if (ray->dir_x < 0)
 	{
 		dda->step_x = -1;
@@ -63,11 +63,11 @@ static void	dda(int	**map, t_ray *ray)
 
 static void	ray_casting(t_cub3d *cub, t_cam *cam, t_ray *ray)
 {
-	cam->cam_x = 2 * ray->x / (double)cub->wx - 1;
+	cam->x = 2 * ray->x / (double)cub->wx - 1;
 	ray->pos_x = cam->pos_x;
 	ray->pos_y = cam->pos_y;
-	ray->dir_x = cam->dir_x + cam->plane_x * cam->cam_x;
-	ray->dir_y = cam->dir_y + cam->plane_y * cam->cam_x;
+	ray->dir_x = cam->dir_x + cam->plane_x * cam->x;
+	ray->dir_y = cam->dir_y + cam->plane_y * cam->x;
 	ray->map_x = (int)ray->pos_x;
 	ray->map_y = (int)ray->pos_y;
 	dda(cub->map.map, ray);
@@ -99,6 +99,7 @@ void		frame(t_cub3d *cub, t_cam *cam)
 		cam->ray.x++;
 	}
 	cam->ray.x = 0;
+	print_fps(cub);
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img.ptr, 0, 0);
 	ft_bzero(cub->img.addr, cub->wx * cub->wy * cub->img.bpp);
 }
