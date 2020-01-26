@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 11:03:43 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/24 14:15:02 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/25 21:15:33 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,25 @@ static void	move_up(t_cub3d *cub, t_cam *cam)
 static void	move_down(t_cub3d *cub, t_cam *cam)
 {
 	if (!cub->map.map[(int)cam->pos_y][(int)(cam->pos_x - cam->dir_x * cam->ms * 3)])
-		cam->pos_x -= cam->dir_x * cam->ms;
+		cam->pos_x -= cam->dir_x * (cam->ms / 2);
 	if (!cub->map.map[(int)(cam->pos_y - cam->dir_y * cam->ms * 3)][(int)cam->pos_x])
-		cam->pos_y -= cam->dir_y * cam->ms;
+		cam->pos_y -= cam->dir_y * (cam->ms / 2);
+}
+
+static void	move_right(t_cub3d *cub, t_cam *cam)
+{
+	if (!cub->map.map[(int)cam->pos_y][(int)(cam->pos_x - cam->dir_y * cam->ms * 3)])
+		cam->pos_x -= cam->dir_y * (cam->ms / 2);
+	if (!cub->map.map[(int)(cam->pos_y + cam->dir_x * cam->ms * 3)][(int)cam->pos_x])
+		cam->pos_y += cam->dir_x * (cam->ms / 2);
+}
+
+static void	move_left(t_cub3d *cub, t_cam *cam)
+{
+	if (!cub->map.map[(int)cam->pos_y][(int)(cam->pos_x + cam->dir_y * cam->ms * 3)])
+		cam->pos_x += cam->dir_y * (cam->ms / 2);
+	if (!cub->map.map[(int)(cam->pos_y - cam->dir_x * cam->ms * 3)][(int)cam->pos_x])
+		cam->pos_y -= cam->dir_x * (cam->ms / 2);
 }
 
 static void	rotate_right(t_cam *cam)
@@ -62,8 +78,12 @@ int			move(t_cub3d *cub)
 	if (cub->move.down)
 		move_down(cub, &cub->cam);
 	if (cub->move.right)
-		rotate_right(&cub->cam);
+		move_right(cub, &cub->cam);
 	if (cub->move.left)
+		move_left(cub, &cub->cam);
+	if (cub->move.r_right)
+		rotate_right(&cub->cam);
+	if (cub->move.r_left)
 		rotate_left(&cub->cam);
 	frame(cub, &cub->cam);
 	return (0);

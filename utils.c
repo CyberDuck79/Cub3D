@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 17:18:49 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/24 14:42:59 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/25 15:46:28 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void		print_fps(t_cub3d *cub)
 
 	cub->old_time = cub->time;
 	cub->time = clock();
-	frame_time = (cub->time - cub->old_time) / 1000.0;
+	frame_time = (cub->time - cub->old_time) / 10000.0;
 	system("clear");
-	printf("%f\n", 1000.0 / frame_time);
+	printf("%f\n", 60.0 / frame_time);
 }

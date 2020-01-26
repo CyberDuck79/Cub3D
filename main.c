@@ -6,14 +6,14 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 14:20:33 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/24 14:20:01 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/25 15:36:50 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "cub3d.h"
 
-int			ft_close(t_cub3d *cub)
+int			close_game(t_cub3d *cub)
 {
 	escape_free_map(cub->map.map, cub->map.y);
 	mlx_destroy_image(cub->mlx, cub->img.ptr);
@@ -93,7 +93,7 @@ int			main(int ac, char **av)
 		return (print_error(error));
 	env_init(&cub);
 	camera_init(&cub.cam, &cub.map);
-	mlx_hook(cub.win, 17, 0L, ft_close, &cub);
+	mlx_hook(cub.win, 17, 0L, close_game, &cub);
 	mlx_hook(cub.win, 2, (1L << 0), key_press, &cub);
 	mlx_hook(cub.win, 3, (1L << 1), key_release, &cub);
 	mlx_loop_hook(cub.mlx, move, &cub);

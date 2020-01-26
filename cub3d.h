@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 14:17:32 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/24 14:25:40 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/25 15:54:02 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <fcntl.h>
 # include <math.h>
-# include <mlx.h>
+# include "minilibx/mlx.h"
 # include <time.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -23,8 +23,6 @@
 # include "ray_casting.h"
 
 # define BUFFER_SIZE 4096
-# define WINX 1024
-# define WINY 768
 
 typedef enum	e_error
 {
@@ -76,6 +74,8 @@ typedef struct	s_move
 	int			down:1;
 	int			left:1;
 	int			right:1;
+	int			r_left:1;
+	int			r_right:1;
 }				t_move;
 
 typedef struct	s_cub3d
@@ -102,7 +102,7 @@ int				key_press(int keycode, t_cub3d *cub);
 int				key_release(int keycode, t_cub3d *cub);
 int				move(t_cub3d *cub);
 int				**escape_free_map(int **map, int index_stop);
-int				ft_close(t_cub3d *cub);
+int				close_game(t_cub3d *cub);
 void			print_fps(t_cub3d *cub);
 
 #endif

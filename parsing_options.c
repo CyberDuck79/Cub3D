@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 15:25:19 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/23 17:11:36 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/25 14:03:48 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,27 +29,23 @@ t_error		parse_resolution(t_cub3d *cub, const char **file)
 	return (OK);
 }
 
-static char	*get_path(const char **file)
+static char	*get_path(char **file)
 {
 	char	*path;
-	size_t	len;
 	int		fd;
 
-	len = 0;
-	while ((*file)[len] && (*file)[len] != '\n')
-		len++;
-	if ((path = (char*)malloc(len + 1)) == NULL)
+	path = *file;
+	while (**file && **file != '\n')
+		(*file)++;
+	if (!**file)
 		return (NULL);
-	ft_strlcpy(path, *file, len + 1);
-	*file += len;
+	else
+		**file = '\0';
+	(*file)++;
 	fd = open(path, O_RDONLY);
-	len = read(fd, path, 0);
+	if (read(fd, path, 0) < 0)
+		path = NULL;
 	close(fd);
-	if (len < 0)
-	{
-		free(path);
-		return (NULL);
-	}
 	return (path);
 }
 
@@ -70,7 +66,7 @@ t_error		parse_textures(t_cub3d *cub, const char **file, t_option option)
 
 	if (cub->params & option)
 		return (TEXTURES);
-	if ((path = get_path(file)) == NULL)
+	if ((path = get_path((char**)file)) == NULL)
 		return (TEXTURES);
 	if (option == TEXT_NO)
 		load_textures(cub, path, 0, 64);
@@ -82,7 +78,6 @@ t_error		parse_textures(t_cub3d *cub, const char **file, t_option option)
 		load_textures(cub, path, 3, 64);
 	else if (option == SPRITE)
 		load_textures(cub, path, 4, 64);
-	free(path);
 	cub->params |= option;
 	return (OK);
 }

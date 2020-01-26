@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 17:16:35 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/23 12:07:02 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/25 14:09:34 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,6 @@ int		is_valid(char c, const char *set)
 		set++;
 	}
 	return (0);
-}
-
-int		check_border(int pos, int end, int value)
-{
-	return ((pos == 0 || pos == end) && value != 1);
 }
 
 int		parse_start(t_map *map, int x, int y)

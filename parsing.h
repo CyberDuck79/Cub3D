@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 15:22:31 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/23 09:43:12 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/25 14:09:43 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ typedef enum	e_option
 
 void			skip_set(const char **str, const char *set);
 int				is_valid(char c, const char *set);
-int				check_border(int pos, int end, int value);
 int				parse_start(t_map *map, int x, int y);
 t_error			parse_resolution(t_cub3d *cub, const char **file);
 t_error			parse_textures(t_cub3d *cub, const char **file, t_option opt);

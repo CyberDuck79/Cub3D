@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 10:05:59 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/24 17:28:44 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/26 09:40:11 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,9 @@ typedef struct	s_floor
 {
 	double		start_x;
 	double		start_y;
+	double		dist;
+	double		x;
+	double		y;
 }				t_floor;
 
 typedef struct	s_cam

@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 17:15:07 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/20 17:47:02 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/25 15:09:51 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,9 @@ static t_error	check_map(t_map *map)
 		x = 0;
 		while (x < map->x)
 		{
-			if (check_border(y, map->y, map->map[y][x]))
+			if ((y == 0 || y == map->y) && map->map[y][x] < 1)
 				return (MAP);
-			if (check_border(x, map->x, map->map[y][x]))
+			if ((x == 0 || x == map->x) && map->map[y][x] < 1)
 				return (MAP);
 			if (parse_start(map, x, y))
 				start++;

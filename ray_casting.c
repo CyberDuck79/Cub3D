@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 11:31:28 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/24 15:40:38 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/25 18:41:48 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,5 @@ void		frame(t_cub3d *cub, t_cam *cam)
 	cam->ray.x = 0;
 	print_fps(cub);
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img.ptr, 0, 0);
-	ft_bzero(cub->img.addr, cub->wx * cub->wy * cub->img.bpp);
+	//ft_bzero(cub->img.addr, cub->wx * cub->wy * cub->img.bpp);
 }
