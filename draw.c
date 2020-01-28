@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 14:35:31 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/26 14:45:06 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/28 11:24:36 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ static void	ft_put_wall(t_cub3d *cub, int x, int y, t_text *text)
 	text->y = y * 2 - cub->wy + height;
 	text->y = ((text->y) * 32) / height;
 	texel = text->data[text->x + text->y * 64];
-	texel = apply_fog(cub->cam.wall.dist * 16, texel);
+	if (BONUS)
+		texel = apply_fog(cub->cam.wall.dist * 16, texel);
 	ft_memcpy(cub->img.addr + (x + y * cub->wx), &texel, sizeof(int));
 }
 
@@ -84,27 +85,35 @@ static void	ft_put_floor(t_cub3d *cub, int x, int y, t_text *text)
 
 	if (x < 0 || x >= cub->wx || y < 0 || y >= cub->wy)
 		return ;
-	cub->cam.floor.dist = cub->wy / (2.0 * y - cub->wy);
-	weight = cub->cam.floor.dist / cub->cam.wall.dist;
-	cub->cam.floor.x = weight * cub->cam.floor.start_x + (1.0 - weight) * cub->cam.pos_x;
-	cub->cam.floor.y = weight * cub->cam.floor.start_y + (1.0 - weight) * cub->cam.pos_y;
-	text->x = (int)(cub->cam.floor.x * 64) % 64;
-	text->y = (int)(cub->cam.floor.y * 64) % 64;
-	texel = text->data[text->x + text->y * 64];
-	texel = apply_fog(cub->cam.floor.dist * 36, texel);
-	ft_memcpy(cub->img.addr + (x + (y - 1) * cub->wx), &texel, sizeof(int));
-	ft_memcpy(cub->img.addr + (x + (cub->wy - y - 1) * cub->wx), &texel, sizeof(int));
+	if (BONUS)
+	{
+		cub->cam.floor.dist = cub->wy / (2.0 * y - cub->wy);
+		weight = cub->cam.floor.dist / cub->cam.wall.dist;
+		cub->cam.floor.x = weight * cub->cam.floor.start_x + (1.0 - weight) * cub->cam.pos_x;
+		cub->cam.floor.y = weight * cub->cam.floor.start_y + (1.0 - weight) * cub->cam.pos_y;
+		text->x = (int)(cub->cam.floor.x * 64) % 64;
+		text->y = (int)(cub->cam.floor.y * 64) % 64;
+		texel = apply_fog(cub->cam.floor.dist * 36, text->data[text->x + text->y * 64]);
+		ft_memcpy(cub->img.addr + (x + (y - 1) * cub->wx), &texel, sizeof(int));
+		ft_memcpy(cub->img.addr + (x + (cub->wy - y - 1) * cub->wx), &texel, sizeof(int));
+	}
+	else
+	{
+		ft_memcpy(cub->img.addr + (x + (y - 1) * cub->wx), &cub->color[0], sizeof(int));
+		ft_memcpy(cub->img.addr + (x + (cub->wy - y - 1) * cub->wx), &cub->color[1], sizeof(int));
+	}
 }
 
 void		draw(t_cub3d *cub, t_wall *wall, int x)
 {
 	int y;
 
-	wall_calc(&cub->cam, &cub->text[3]);
-	floor_calc(&cub->cam);
+	wall_calc(&cub->cam, &cub->text[wall->dir]);
+	if (BONUS)
+		floor_calc(&cub->cam);
 	y = wall->start;
 	while (y <= wall->end)
-		ft_put_wall(cub, x, y++, &cub->text[3]);
+		ft_put_wall(cub, x, y++, &cub->text[wall->dir]);
 	while (y < cub->wy)
 		ft_put_floor(cub, x, y++, &cub->text[2]);
 }

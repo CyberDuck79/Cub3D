@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 17:15:07 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/25 15:09:51 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/28 13:16:14 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static t_error	get_mapsize(t_map *map, const char *file)
 	{
 		if (is_valid(*file, MAP_DEF))
 			map->x++;
+		else if (*file == '2')
+			map->sprites_nb++;
 		else if (*file != ' ')
 			return (MAP);
 		file++;
@@ -26,6 +28,8 @@ static t_error	get_mapsize(t_map *map, const char *file)
 	{
 		if (!is_valid(*file, MAP_DEF) && *file != ' ' && *file != '\n')
 			return (MAP);
+		else if (*file == '2')
+			map->sprites_nb++;
 		else if (*file == '\n')
 			map->y++;
 		file++;
@@ -33,21 +37,28 @@ static t_error	get_mapsize(t_map *map, const char *file)
 	return (OK);
 }
 
-static int		**malloc_map(int map_x, int map_y)
+static t_error		malloc_map(t_map *map)
 {
-	int		**map;
 	int		index;
 
 	index = 0;
-	if ((map = (int**)malloc(sizeof(int*) * map_y)) == NULL)
-		return (NULL);
-	while (index < map_y)
+	if ((map->map = (int**)malloc(sizeof(int*) * map->y)) == NULL)
+		return (MAP);
+	while (index < map->y)
 	{
-		if ((map[index] = (int*)malloc(sizeof(int) * map_x)) == NULL)
-			return (escape_free_map(map, index));
+		if ((map->map[index] = (int*)malloc(sizeof(int) * map->x)) == NULL)
+		{
+			escape_free_map(map->map, index);
+			return (MAP);
+		}
 		index++;
 	}
-	return (map);
+	if ((map->sprites = malloc(map->sprites_nb * sizeof(t_sprite))) == NULL)
+	{
+		escape_free_map(map->map, index);
+		return (MAP);
+	}
+	return (OK);
 }
 
 static t_error	copy_map(t_map *map, const char *file)
@@ -102,11 +113,36 @@ static t_error	check_map(t_map *map)
 	return (start == 1 ? OK : MAP);
 }
 
+static void		get_sprites(t_map *map)
+{
+	int	x;
+	int	y;
+	int	index;
+
+	index = 0;
+	y = 0;
+	while (y < map->y)
+	{
+		x = 0;
+		while (x < map->x)
+		{
+			if (map->map[y][x] == 2)
+			{
+				map->sprites[index].x = x + 0.5;
+				map->sprites[index].y = y + 0.5;
+				index++;
+			}
+			x++;
+		}
+		y++;
+	}
+}
+
 t_error			parse_map(t_map *map, const char *file)
 {
 	if (get_mapsize(map, file))
 		return (MAP);
-	if ((map->map = malloc_map(map->x, map->y)) == NULL)
+	if (malloc_map(map))
 		return (MAP);
 	if (copy_map(map, file))
 	{
@@ -118,5 +154,6 @@ t_error			parse_map(t_map *map, const char *file)
 		escape_free_map(map->map, map->y);
 		return (MAP);
 	}
+	get_sprites(map);
 	return (OK);
 }

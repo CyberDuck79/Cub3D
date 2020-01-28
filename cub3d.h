@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 14:17:32 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/25 15:54:02 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/28 12:59:48 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,14 @@
 # include "minilibx/mlx.h"
 # include <time.h>
 # include <stdlib.h>
+# include <unistd.h>
 # include <stdio.h>
 # include "libft/libft.h"
 # include "ray_casting.h"
+
+# ifndef BONUS
+#  define BONUS 0
+# endif
 
 # define BUFFER_SIZE 4096
 
@@ -66,6 +71,8 @@ typedef struct	s_map
 	int			start_x;
 	int			start_y;
 	char		start_dir;
+	int			sprites_nb;
+	t_sprite	*sprites;
 }				t_map;
 
 typedef struct	s_move
@@ -86,7 +93,7 @@ typedef struct	s_cub3d
 	void		*win;
 	char		params;
 	int			color[2];
-	t_text		text[4];
+	t_text		text[5];
 	t_img		img;
 	t_map		map;
 	t_cam		cam;
@@ -104,5 +111,6 @@ int				move(t_cub3d *cub);
 int				**escape_free_map(int **map, int index_stop);
 int				close_game(t_cub3d *cub);
 void			print_fps(t_cub3d *cub);
+t_error			save_bmp(t_cub3d *cub);
 
 #endif

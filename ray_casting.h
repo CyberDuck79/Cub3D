@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 10:05:59 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/26 09:40:11 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/28 15:23:37 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,13 @@ typedef struct	s_dda
 	int			step_y;
 }				t_dda;
 
+typedef struct	s_sprite
+{
+	double		x;
+	double		y;
+	double		dist;
+}				t_sprite;
+
 typedef struct	s_ray
 {
 	int			x;
@@ -34,6 +41,7 @@ typedef struct	s_ray
 	double		dir_y;
 	int			side;
 	t_dda		dda;
+	double		*z_buf;
 }				t_ray;
 
 typedef struct	s_wall

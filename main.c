@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 14:20:33 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/25 15:36:50 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/28 16:52:49 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 int			close_game(t_cub3d *cub)
 {
 	escape_free_map(cub->map.map, cub->map.y);
+	free(cub->map.sprites);
+	free(cub->cam.ray.z_buf);
 	mlx_destroy_image(cub->mlx, cub->img.ptr);
 	mlx_destroy_window(cub->mlx, cub->win);
 	system("leaks a.out");
@@ -78,25 +80,36 @@ static void	env_init(t_cub3d *cub)
 	&cub->img.size_l, &cub->img.endian);
 	cub->img.bpp /= 8;
 	cub->time = clock();
+	cub->cam.ray.z_buf = malloc(cub->wx * sizeof(double));
+	if (cub->cam.ray.z_buf == NULL)
+		close_game(cub);
 }
 
 int			main(int ac, char **av)
 {
 	t_cub3d	cub;
 	t_error	error;
+	int		save;
 
-	if (ac < 2)
+	save = (ac >= 2 && !ft_strcmp(av[1], "-save"));
+	if (ac < (2 + save))
 		return (print_error(ARGUMENT));
 	ft_bzero(&cub, sizeof(t_cub3d));
 	cub.mlx = mlx_init();
-	if ((error = file_parser(&cub, av[1])))
+	if ((error = file_parser(&cub, av[1 + save])))
 		return (print_error(error));
 	env_init(&cub);
 	camera_init(&cub.cam, &cub.map);
-	mlx_hook(cub.win, 17, 0L, close_game, &cub);
-	mlx_hook(cub.win, 2, (1L << 0), key_press, &cub);
-	mlx_hook(cub.win, 3, (1L << 1), key_release, &cub);
-	mlx_loop_hook(cub.mlx, move, &cub);
-	mlx_loop(cub.mlx);
-	return (0);
+	frame(&cub, &cub.cam);
+	if (save && save_bmp(&cub))
+		return (print_error(OPEN_FILE));
+	else if (!save)
+	{
+		mlx_hook(cub.win, 17, 0L, close_game, &cub);
+		mlx_hook(cub.win, 2, (1L << 0), key_press, &cub);
+		mlx_hook(cub.win, 3, (1L << 1), key_release, &cub);
+		mlx_loop_hook(cub.mlx, move, &cub);
+		mlx_loop(cub.mlx);
+	}
+	return (close_game(&cub));
 }
