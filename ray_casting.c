@@ -6,12 +6,16 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 11:31:28 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/28 17:13:38 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/29 15:56:47 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
 #include "ray_casting.h"
+#include "sprites.h"
+#include "draw.h"
+#include "move.h"
+#include "rotate.h"
+#include "utils.h"
 
 static void	dda_init(t_ray *ray, t_dda *dda)
 {
@@ -39,7 +43,7 @@ static void	dda_init(t_ray *ray, t_dda *dda)
 	}
 }
 
-static void	dda(int	**map, t_ray *ray)
+static void	dda(int **map, t_ray *ray)
 {
 	dda_init(ray, &ray->dda);
 	while (1)
@@ -79,98 +83,6 @@ static void	ray_casting(t_cub3d *cub, t_cam *cam, t_ray *ray)
 		(1 - ray->dda.step_x) / 2) / ray->dir_x;
 }
 
-void		draw_sprite(t_cub3d *cub, t_map *map, t_cam *cam)
-{
-	int		i;
-
-	i = 0;
-	while (i < map->sprites_nb)
-	{
-		double sprite_x = map->sprites[i].x - cam->pos_x;
-		double sprite_y = map->sprites[i].y - cam->pos_y;
-		double inv = 1.0 / (cam->plane_x * cam->dir_y - cam->plane_y * cam->dir_x);
-		double transformX = inv * (cam->dir_y * sprite_x - cam->dir_x * sprite_y);
-		double transformY = inv * (-cam->plane_y * sprite_x + cam->plane_x * sprite_y);
-		int draw_x = (int)((cub->wx / 2) * (1 + transformX / transformY));
-		int	draw_h = abs((int)(cub->wy / transformY));
-		int draw_start_y = -draw_h / 2 + cub->wy / 2;
-		if (draw_start_y < 0)
-			draw_start_y = 0;
-		int draw_end_y = draw_h / 2 + cub->wy / 2;
-		if (draw_end_y >= cub->wy)
-			draw_end_y = cub->wy - 1;
-		int draw_w = abs((int)(cub->wy / transformY));
-		int draw_start_x = -draw_w / 2 + draw_x;
-		if (draw_start_x < 0)
-			draw_start_x = 0;
-		int draw_end_x = draw_w / 2 + draw_x;
-		if (draw_end_x >= cub->wx)
-			draw_end_x = cub->wx - 1;
-		int x = draw_start_x;
-		while (x < draw_end_x)
-		{
-			if (transformY > 0 && x > 0 && x < cub->wx && transformY < cam->ray.z_buf[x])
-			{
-				int text_x = (int)(256 * (x - (-draw_w / 2 + draw_x)) * 64 / draw_w) / 256;
-				int y = draw_start_y;
-				while (y < draw_end_y)
-				{
-					int d = y * 256 - cub->wy * 128 + draw_h * 128;
-					int text_y = ((d * 64) / draw_h) / 256;
-					int texel = cub->text[4].data[text_y * 64 + text_x];
-					ft_memcpy(cub->img.addr + (x + (y - 1) * cub->wx), &texel, sizeof(int));
-					y++;
-				}
-			}
-			x++;
-		}
-		i++;
-	}
-}
-
-void		sort_sprites(t_sprite *sprites, int sprites_nb)
-{
-	int i;
-	int sorted;
-	t_sprite tmp;
-
-	sorted = 1;
-	while (sorted)
-	{
-		i = 0;
-		sorted = 0;
-		while (i < sprites_nb - 1)
-		{
-			if (sprites[i].dist < sprites[i + 1].dist)
-			{
-				tmp = sprites[i];
-				sprites[i] = sprites[i + 1];
-				sprites[i + 1] = tmp;
-				sorted++;
-			}
-			i++;
-		}
-	}
-	
-}
-
-void		sprite_casting(t_map *map, t_cam *cam)
-{
-	int		i;
-	double	x;
-	double	y;
-
-	i = 0;
-	while (i < map->sprites_nb)
-	{
-		x = map->sprites[i].x;
-		y = map->sprites[i].y;
-		map->sprites[i].dist = pow(cam->pos_x - x, 2) * pow(cam->pos_y - y, 2);
-		i++;
-	}
-	sort_sprites(map->sprites, map->sprites_nb); // du plus grand au plus petit
-}
-
 void		frame(t_cub3d *cub, t_cam *cam)
 {
 	while (cam->ray.x < cub->wx)
@@ -192,9 +104,27 @@ void		frame(t_cub3d *cub, t_cam *cam)
 		cam->ray.x++;
 	}
 	sprite_casting(&cub->map, cam);
-	draw_sprite(cub, &cub->map, cam);
+	draw_sprites(cub, cam, cub->map.sprites, cub->map.sprites_nb);
 	cam->ray.x = 0;
-	//if (BONUS)
+	if (BONUS)
 		print_fps(cub);
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img.ptr, 0, 0);
+}
+
+int			frame_loop(t_cub3d *cub)
+{
+	if (cub->move.up)
+		move_up(cub->map.map, &cub->cam);
+	if (cub->move.down)
+		move_down(cub->map.map, &cub->cam);
+	if (cub->move.right)
+		move_right(cub->map.map, &cub->cam);
+	if (cub->move.left)
+		move_left(cub->map.map, &cub->cam);
+	if (cub->move.r_right)
+		rotate_right(&cub->cam);
+	if (cub->move.r_left)
+		rotate_left(&cub->cam);
+	frame(cub, &cub->cam);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 14:30:17 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/23 10:35:25 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/29 12:02:33 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,13 @@ static t_error	check_file(t_cub3d *cub, const char *file)
 
 static char		*read_file(int fd, size_t offset)
 {
-	char		buf[BUFFER_SIZE];
+	char		buf[BUFF_SIZE];
 	char		*new;
 	size_t		count;
 
 	if (read(fd, buf, 0) < 0)
 		return (NULL);
-	if (!(count = read(fd, buf, BUFFER_SIZE)))
+	if (!(count = read(fd, buf, BUFF_SIZE)))
 	{
 		close(fd);
 		return ((char*)ft_calloc(offset + 1, sizeof(char)));

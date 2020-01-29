@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray_casting.h                                      :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/23 10:05:59 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/29 12:01:01 by fhenrion         ###   ########.fr       */
+/*   Created: 2020/01/29 11:13:18 by fhenrion          #+#    #+#             */
+/*   Updated: 2020/01/29 15:35:16 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_CASTING_H
-# define RAY_CASTING_H
+#ifndef UTILS_H
+# define UTILS_H
 
 # include "data_structs.h"
 
-void		frame(t_cub3d *cub, t_cam *cam);
-int			frame_loop(t_cub3d *cub);
+int			**escape_free_map(int **map, int index_stop);
+void		print_fps(t_cub3d *cub);
+void		sort_sprites(t_sprite *sprites, int sprites_nb);
+int			apply_fog(double dist, int texel);
+t_error		save_bmp(t_cub3d *cub);
+int			close_game(t_cub3d *cub);
 
 #endif

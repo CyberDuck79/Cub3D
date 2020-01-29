@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray_casting.h                                      :+:      :+:    :+:   */
+/*   rotate.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/23 10:05:59 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/29 12:01:01 by fhenrion         ###   ########.fr       */
+/*   Created: 2020/01/29 11:09:55 by fhenrion          #+#    #+#             */
+/*   Updated: 2020/01/29 12:01:05 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_CASTING_H
-# define RAY_CASTING_H
+#ifndef ROTATE_H
+# define ROTATE_H
 
 # include "data_structs.h"
 
-void		frame(t_cub3d *cub, t_cam *cam);
-int			frame_loop(t_cub3d *cub);
+void	rotate_right(t_cam *cam);
+void	rotate_left(t_cam *cam);
 
 #endif

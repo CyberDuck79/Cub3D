@@ -6,12 +6,12 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 14:17:32 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/28 12:59:48 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/29 16:17:19 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_H
-# define MAIN_H
+#ifndef CUB3D_H
+# define CUB3D_H
 
 # include <fcntl.h>
 # include <math.h>
@@ -21,96 +21,9 @@
 # include <unistd.h>
 # include <stdio.h>
 # include "libft/libft.h"
-# include "ray_casting.h"
 
 # ifndef BONUS
 #  define BONUS 0
 # endif
-
-# define BUFFER_SIZE 4096
-
-typedef enum	e_error
-{
-	OK,
-	ARGUMENT,
-	OPEN_FILE,
-	EXTENSION,
-	SYNTAX,
-	RESOLUTION,
-	TEXTURES,
-	COLORS,
-	MAP
-}				t_error;
-
-typedef struct	s_text
-{
-	void		*img;
-	int			*data;
-	int			bpp;
-	int			size_l;
-	int			endian;
-	int			x;
-	int			y;
-}				t_text;
-
-typedef struct	s_img
-{
-	void		*ptr;
-	int			*addr;
-	int			bpp;
-	int			size_l;
-	int			endian;
-}				t_img;
-
-typedef struct	s_map
-{
-	char		*map_name;
-	int			**map;
-	int			x;
-	int			y;
-	int			start_x;
-	int			start_y;
-	char		start_dir;
-	int			sprites_nb;
-	t_sprite	*sprites;
-}				t_map;
-
-typedef struct	s_move
-{
-	int			up:1;
-	int			down:1;
-	int			left:1;
-	int			right:1;
-	int			r_left:1;
-	int			r_right:1;
-}				t_move;
-
-typedef struct	s_cub3d
-{
-	int			wx;
-	int			wy;
-	void		*mlx;
-	void		*win;
-	char		params;
-	int			color[2];
-	t_text		text[5];
-	t_img		img;
-	t_map		map;
-	t_cam		cam;
-	t_move		move;
-	clock_t		old_time;
-	clock_t		time;
-}				t_cub3d;
-
-t_error			file_parser(t_cub3d *cub, const char *filename);
-void			frame(t_cub3d *cub, t_cam *cam);
-void			draw(t_cub3d *cub, t_wall *wall, int x);
-int				key_press(int keycode, t_cub3d *cub);
-int				key_release(int keycode, t_cub3d *cub);
-int				move(t_cub3d *cub);
-int				**escape_free_map(int **map, int index_stop);
-int				close_game(t_cub3d *cub);
-void			print_fps(t_cub3d *cub);
-t_error			save_bmp(t_cub3d *cub);
 
 #endif

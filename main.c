@@ -6,12 +6,15 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 14:20:33 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/28 16:52:49 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/29 16:18:30 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include "cub3d.h"
+#include "utils.h"
+#include "parsing.h"
+#include "ray_casting.h"
+#include "keys.h"
+#include "draw.h"
 
 int			close_game(t_cub3d *cub)
 {
@@ -25,7 +28,6 @@ int			close_game(t_cub3d *cub)
 	return (0);
 }
 
-// look at perror ?
 static int	print_error(t_error error)
 {
 	write(1, "Error\n", 6);
@@ -108,7 +110,7 @@ int			main(int ac, char **av)
 		mlx_hook(cub.win, 17, 0L, close_game, &cub);
 		mlx_hook(cub.win, 2, (1L << 0), key_press, &cub);
 		mlx_hook(cub.win, 3, (1L << 1), key_release, &cub);
-		mlx_loop_hook(cub.mlx, move, &cub);
+		mlx_loop_hook(cub.mlx, frame_loop, &cub);
 		mlx_loop(cub.mlx);
 	}
 	return (close_game(&cub));

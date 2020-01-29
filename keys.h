@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray_casting.h                                      :+:      :+:    :+:   */
+/*   keys.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/23 10:05:59 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/29 12:01:01 by fhenrion         ###   ########.fr       */
+/*   Created: 2020/01/29 11:23:37 by fhenrion          #+#    #+#             */
+/*   Updated: 2020/01/29 11:59:02 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_CASTING_H
-# define RAY_CASTING_H
+#ifndef KEYS_H
+# define KEYS_H
 
 # include "data_structs.h"
 
-void		frame(t_cub3d *cub, t_cam *cam);
-int			frame_loop(t_cub3d *cub);
+int				key_press(int keycode, t_cub3d *cub);
+int				key_release(int keycode, t_cub3d *cub);
 
 #endif

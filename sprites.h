@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray_casting.h                                      :+:      :+:    :+:   */
+/*   sprites.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/23 10:05:59 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/29 12:01:01 by fhenrion         ###   ########.fr       */
+/*   Created: 2020/01/29 09:26:00 by fhenrion          #+#    #+#             */
+/*   Updated: 2020/01/29 12:01:12 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_CASTING_H
-# define RAY_CASTING_H
+#ifndef SPRITES_H
+# define SPRITES_H
 
 # include "data_structs.h"
 
-void		frame(t_cub3d *cub, t_cam *cam);
-int			frame_loop(t_cub3d *cub);
+void			sprite_casting(t_map *map, t_cam *cam);
+void			draw_sprites(t_cub3d *cub, t_cam *cam, t_sprite *arr, int size);
 
 #endif

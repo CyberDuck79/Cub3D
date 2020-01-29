@@ -6,13 +6,14 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 10:55:02 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/25 15:58:33 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/29 12:10:24 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "keys.h"
+#include "utils.h"
 
-int				key_press(int keycode, t_cub3d *cub)
+int	key_press(int keycode, t_cub3d *cub)
 {
 	if (keycode == 13 || keycode == 126)
 		cub->move.up = 1;
@@ -33,7 +34,7 @@ int				key_press(int keycode, t_cub3d *cub)
 	return (0);
 }
 
-int				key_release(int keycode, t_cub3d *cub)
+int	key_release(int keycode, t_cub3d *cub)
 {
 	if (keycode == 13 || keycode == 126)
 		cub->move.up = 0;

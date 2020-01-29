@@ -6,14 +6,14 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 15:22:31 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/25 14:09:43 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/29 12:15:01 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
-# include "cub3d.h"
+# include "data_structs.h"
 
 # define SPACES		" \t\r\n"
 # define NUMBERS	"0123456789"
@@ -23,6 +23,7 @@
 # define MAX_WINX	2560
 # define MIN_WINY	100
 # define MAX_WINY	1440
+# define BUFF_SIZE	4096
 
 typedef struct	s_rgb
 {
@@ -48,9 +49,12 @@ typedef enum	e_option
 void			skip_set(const char **str, const char *set);
 int				is_valid(char c, const char *set);
 int				parse_start(t_map *map, int x, int y);
+t_error			malloc_map(t_map *map);
+t_error			copy_map(t_map *map, const char *file);
 t_error			parse_resolution(t_cub3d *cub, const char **file);
 t_error			parse_textures(t_cub3d *cub, const char **file, t_option opt);
 t_error			parse_colors(t_cub3d *cub, const char **file, t_option opt);
 t_error			parse_map(t_map *map, const char *file);
+t_error			file_parser(t_cub3d *cub, const char *filename);
 
 #endif

@@ -6,11 +6,12 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 17:15:07 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/28 13:16:14 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/29 14:07:11 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+#include "utils.h"
 
 static t_error	get_mapsize(t_map *map, const char *file)
 {
@@ -35,56 +36,6 @@ static t_error	get_mapsize(t_map *map, const char *file)
 		file++;
 	}
 	return (OK);
-}
-
-static t_error		malloc_map(t_map *map)
-{
-	int		index;
-
-	index = 0;
-	if ((map->map = (int**)malloc(sizeof(int*) * map->y)) == NULL)
-		return (MAP);
-	while (index < map->y)
-	{
-		if ((map->map[index] = (int*)malloc(sizeof(int) * map->x)) == NULL)
-		{
-			escape_free_map(map->map, index);
-			return (MAP);
-		}
-		index++;
-	}
-	if ((map->sprites = malloc(map->sprites_nb * sizeof(t_sprite))) == NULL)
-	{
-		escape_free_map(map->map, index);
-		return (MAP);
-	}
-	return (OK);
-}
-
-static t_error	copy_map(t_map *map, const char *file)
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (*file)
-	{
-		x = 0;
-		while (*file && *file != '\n')
-		{
-			if (is_valid(*file, MAP_DEF))
-			{
-				map->map[y][x] = *file - 48;
-				if (++x > map->x)
-					return (MAP);
-			}
-			file++;
-		}
-		if (++y > map->y || x != map->x)
-			return (MAP);
-		file++;
-	}
-	return (y == map->y ? OK : MAP);
 }
 
 static t_error	check_map(t_map *map)
@@ -128,8 +79,8 @@ static void		get_sprites(t_map *map)
 		{
 			if (map->map[y][x] == 2)
 			{
-				map->sprites[index].x = x + 0.5;
-				map->sprites[index].y = y + 0.5;
+				map->sprites[index].map_x = x + 0.5;
+				map->sprites[index].map_y = y + 0.5;
 				index++;
 			}
 			x++;
