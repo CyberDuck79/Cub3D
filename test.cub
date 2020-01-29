@@ -1,9 +1,9 @@
 R 860 640
-NO ./north_texture.xpm
-SO ./south_texture.xpm
-WE ./west_texture.xpm
-EA ./east_texture.xpm
-S ./sprite_texture.xpm
+NO ./textures/north_texture.xpm
+SO ./textures/south_texture.xpm
+WE ./textures/west_texture.xpm
+EA ./textures/east_texture.xpm
+S ./textures/sprite_texture.xpm
 F 167,167,167
 C 54,54,54
 
