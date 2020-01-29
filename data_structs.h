@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 11:52:35 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/29 19:44:11 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/29 19:55:15 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,6 @@
 # define DATA_STRUCTS_H
 
 # include "cub3d.h"
-
-typedef enum	e_error
-{
-	OK,
-	ARGUMENT,
-	OPEN_FILE,
-	EXTENSION,
-	SYNTAX,
-	RESOLUTION,
-	TEXTURES,
-	COLORS,
-	MAP
-}				t_error;
 
 typedef struct	s_sprite
 {
@@ -41,14 +28,6 @@ typedef struct	s_sprite
 	int			height;
 	int			d;
 }				t_sprite;
-
-typedef struct	s_draw
-{
-	int			y;
-	int			y_end;
-	int			x;
-	int			x_end;
-}				t_draw;
 
 typedef struct	s_dda
 {

@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 14:17:32 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/29 19:50:49 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/29 19:54:39 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,18 @@
 # ifndef BONUS
 #  define BONUS 0
 # endif
+
+typedef enum	e_error
+{
+	OK,
+	ARGUMENT,
+	OPEN_FILE,
+	EXTENSION,
+	SYNTAX,
+	RESOLUTION,
+	TEXTURES,
+	COLORS,
+	MAP
+}				t_error;
 
 #endif
