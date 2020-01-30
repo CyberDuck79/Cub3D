@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 14:35:31 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/29 16:33:43 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/30 13:35:43 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static void	ft_put_floor(t_cub3d *cub, int x, int y, t_text *text)
 		texel = text->data[text->x + text->y * 64];
 		texel = apply_fog(cub->cam.floor.dist * 22, texel);
 		cub->img.addr[x + y * cub->wx] = texel;
-		cub->img.addr[x + (cub->wy - y) * cub->wx] = texel;
+		cub->img.addr[x + (cub->wy - y - 1) * cub->wx] = texel;
 	}
 	else
 	{
