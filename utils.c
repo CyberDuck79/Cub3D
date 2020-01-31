@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 17:18:49 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/31 11:53:55 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/31 13:45:59 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int		apply_fog(double dist, int texel)
 void	draw_transparency(t_cub3d *cub, int texel, int pos)
 {
 	int transparency;
-	
+
 	transparency = (texel >> 24) & 0xFF;
 	if (transparency != 0xFF)
 		cub->img.addr[pos] = texel;

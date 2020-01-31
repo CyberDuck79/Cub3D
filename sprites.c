@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 09:22:15 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/31 11:53:33 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/31 13:46:25 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void		draw_sprites(t_cub3d *cub, t_cam *cam, t_sprite *arr, int size)
 	int		i;
 	double	inv;
 
-	
 	i = 0;
 	inv = 1.0 / (cam->plane_x * cam->dir_y - cam->plane_y * cam->dir_x);
 	while (i < size)

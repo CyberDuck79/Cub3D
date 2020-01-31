@@ -6,11 +6,11 @@
 #    By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/10 23:15:25 by lmarques          #+#    #+#              #
-#    Updated: 2020/01/31 13:25:56 by fhenrion         ###   ########.fr        #
+#    Updated: 2020/01/31 16:30:13 by fhenrion         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	=	cub3d
+NAME	=	cub3D
 SRCS	=	main.c parsing_file.c parsing_options.c parsing_map.c \
 			parsing_utils.c utils.c ray_casting.c draw.c keys.c move.c \
 			sprites.c screenshot.c rotate.c
