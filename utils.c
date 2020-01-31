@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 17:18:49 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/29 16:29:13 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/31 09:51:57 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,12 @@ void		sort_sprites(t_sprite *sprites, int sprites_nb)
 
 int			apply_fog(double dist, int texel)
 {
-	int rgb[3];
+	int rgb[4];
 
 	rgb[0] = texel & 0xFF;
 	rgb[1] = (texel >> 8) & 0xFF;
 	rgb[2] = (texel >> 16) & 0xFF;
+	rgb[3] = (texel >> 24) & 0xFF;
 	rgb[0] -= (int)dist + 8;
 	if (rgb[0] < 0x10)
 		rgb[0] = 0x10;
@@ -78,5 +79,5 @@ int			apply_fog(double dist, int texel)
 	rgb[2] -= (int)dist + 8;
 	if (rgb[2] < 0x10)
 		rgb[2] = 0x10;
-	return (rgb[0] | rgb[1] << 8 | rgb[2] << 16);
+	return (rgb[0] | rgb[1] << 8 | rgb[2] << 16 | rgb[3] << 24);
 }

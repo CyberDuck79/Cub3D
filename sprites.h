@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 09:26:00 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/29 19:55:02 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/31 10:48:05 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct	s_draw
 	int			x_end;
 }				t_draw;
 
-void	sprite_casting(t_map *map, t_cam *cam);
-void	draw_sprites(t_cub3d *cub, t_cam *cam, t_sprite *arr, int size);
+void			sprite_casting(t_map *map, t_cam *cam);
+void			draw_sprites(t_cub3d *cub, t_cam *cam, t_sprite *arr, int size);
 
 #endif

@@ -6,12 +6,14 @@
 #    By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/10 23:15:25 by lmarques          #+#    #+#              #
-#    Updated: 2020/01/18 17:27:23 by fhenrion         ###   ########.fr        #
+#    Updated: 2020/01/31 11:27:16 by fhenrion         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	=	cub3D
-SRCS	=	main.c parsing_file.c parsing_options.c parsing_utils.c parsing_map.c
+NAME	=	cub3d
+SRCS	=	main.c parsing_file.c parsing_options.c parsing_map.c \
+			parsing_utils.c utils.c ray_casting.c draw.c keys.c move.c \
+			sprites.c screenshot.c rotate.c
 
 CC		=	gcc
 CFLAGS	=	-Wall -Wextra -Werror
@@ -36,16 +38,12 @@ $(NAME): $(OBJ)
 	&& echo $(YELLOW)[...] [ Compiling minilibx ]$(WHITE) \
 	|| (echo $(RED)[ ✗ ] [ Libft Compilation Fail ]"; exit 1)
 	make -C minilibx \
-	&& echo $(YELLOW)[...] [ Compiling libgrfx ]$(WHITE) \
-	|| (echo $(RED)[ ✗ ] [ Minilibx Compilation Fail ]"; exit 1)
-	make -C libgrfx \
 	&& echo $(GREEN)[ ✓ ] [ Librairies Successfully Compiled ]$(WHITE) \
-	|| (echo $(RED)[ ✗ ] [ Libgrfx Compilation Fail ]"; exit 1)
+	|| (echo $(RED)[ ✗ ] [ minilibx Compilation Fail ]"; exit 1)
 	mv minilibx/libmlx.a .
 	mv libft/libft.a .
-	mv libgrfx/libgrfx.a .
 	echo $(YELLOW)[...] [ Compiling Executable ]$(WHITE)
-	$(CC) $(CFLAGS) -I. -L. -lft -lmlx -lgrfx \
+	$(CC) $(CFLAGS) -I. -L. -lft -lmlx \
 	-framework OpenGL -framework Appkit $^ -o $@ \
 	&& echo $(GREEN)[ ✓ ] [ Program Successfully Compiled ]$(WHITE) \
 	|| (echo $(RED)[ ✗ ] [ Program Compilation Fail ]"; exit 1)
@@ -56,38 +54,28 @@ $(OBJ):
 	&& echo $(GREEN)[ ✓ ] [ Objects Successfully Compiled ]$(WHITE) \
 	|| (echo $(RED)[ ✗ ] [ Program Compilation Fail ]"; exit 1)
 
-debug:
-	echo $(YELLOW)[...] [ Compiling Objects ]$(WHITE)
-	$(CC) $(CFLAGS) -c $(SRCS) -fsanitize=address -g -O0 \
-	&& echo $(GREEN)[ ✓ ] [ Objects Successfully Compiled ]$(WHITE) \
-	|| (echo $(RED)[ ✗ ] [ Program Compilation Fail ]"; exit 1)
+bonus: $(OBJ)
 	echo $(YELLOW)[...] [ Compiling Librairies ]$(WHITE)
 	echo $(YELLOW)[...] [ Compiling libft ]$(WHITE)
-	make -C libft debug\
+	make -C libft \
 	&& echo $(YELLOW)[...] [ Compiling minilibx ]$(WHITE) \
 	|| (echo $(RED)[ ✗ ] [ Libft Compilation Fail ]"; exit 1)
 	make -C minilibx \
-	&& echo $(YELLOW)[...] [ Compiling libgrfx ]$(WHITE) \
-	|| (echo $(RED)[ ✗ ] [ Minilibx Compilation Fail ]"; exit 1)
-	make -C libgrfx debug\
 	&& echo $(GREEN)[ ✓ ] [ Librairies Successfully Compiled ]$(WHITE) \
-	|| (echo $(RED)[ ✗ ] [ Libgrfx Compilation Fail ]"; exit 1)
+	|| (echo $(RED)[ ✗ ] [ minilibx Compilation Fail ]"; exit 1)
 	mv minilibx/libmlx.a .
-	mv libft/libft_dbg.a .
-	mv libgrfx/libgrfx_dbg.a .
+	mv libft/libft.a .
 	echo $(YELLOW)[...] [ Compiling Executable ]$(WHITE)
-	$(CC) $(CFLAGS) -I. -L. -lft_dbg -lmlx -lgrfx_dbg \
-	-framework OpenGL -framework Appkit $(OBJ) -o $(NAME) \
-	-g -fsanitize=address \
-	&& echo $(GREEN)[ ✓ ] [ Program Successfully Compiled ]" \
+	$(CC) $(CFLAGS) -I. -L. -lft -lmlx \
+	-framework OpenGL -framework Appkit -D BONUS=1 $^ -o $(NAME) \
+	&& echo $(GREEN)[ ✓ ] [ Program Successfully Compiled ]$(WHITE) \
 	|| (echo $(RED)[ ✗ ] [ Program Compilation Fail ]"; exit 1)
 
 clean:
 	echo $(YELLOW)[...] [ cleaning ]$(WHITE)
 	make -C minilibx clean
 	make -C libft clean
-	make -C libgrfx clean
-	rm -rf $(OBJ) libft.a libmlx.a libgrfx.a FdF.h.gch libft_dbg.a libgrfx_dbg.a
+	rm -rf $(OBJ) libft.a libmlx.a
 	echo $(GREEN)[ ✓ ] [ Successfull cleaning ]"
 
 fclean: clean

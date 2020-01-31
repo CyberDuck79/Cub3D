@@ -1,1 +1,0 @@
-gcc -Wall -Wextra -Werror main.c parsing_file.c parsing_options.c parsing_map.c parsing_utils.c utils.c ray_casting.c draw.c keys.c move.c sprites.c screenshot.c rotate.c -g3 -L. -lmlx -lft -framework OpenGL -framework Appkit -D BONUS=1

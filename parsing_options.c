@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 15:25:19 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/25 14:03:48 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/31 10:49:27 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,17 @@ t_error		parse_resolution(t_cub3d *cub, const char **file)
 	if (cub->params & RES)
 		return (RESOLUTION);
 	cub->wx = ft_atoi(*file);
-	if (cub->wx < MIN_WINX || cub->wx > MAX_WINX)
+	if (cub->wx < MIN_WINX)
 		return (RESOLUTION);
+	if (cub->wx > MAX_WINX)
+		cub->wx = MAX_WINX;
 	skip_set(file, NUMBERS);
 	skip_set(file, " ");
 	cub->wy = ft_atoi(*file);
-	if (cub->wy < MIN_WINY || cub->wy > MAX_WINY)
+	if (cub->wy < MIN_WINY)
 		return (RESOLUTION);
+	if (cub->wy > MAX_WINY)
+		cub->wy = MAX_WINY;
 	skip_set(file, NUMBERS);
 	cub->params |= RES;
 	return (OK);

@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 09:22:15 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/29 16:28:28 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/31 11:04:57 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,12 @@ void		draw_sprites(t_cub3d *cub, t_cam *cam, t_sprite *arr, int size)
 	int		i;
 	double	inv;
 
+	
 	i = 0;
 	inv = 1.0 / (cam->plane_x * cam->dir_y - cam->plane_y * cam->dir_x);
 	while (i < size)
 	{
+		ft_memset(cub->img.addr, 0xFF, cub->wx * cub->wy * cub->img.bpp);
 		arr[i].x = arr[i].map_x - cam->pos_x;
 		arr[i].y = arr[i].map_y - cam->pos_y;
 		arr[i].trans_x = inv * (cam->dir_y * arr[i].x - cam->dir_x * arr[i].y);
@@ -81,6 +83,7 @@ void		draw_sprites(t_cub3d *cub, t_cam *cam, t_sprite *arr, int size)
 		(1 + arr[i].trans_x / arr[i].trans_y));
 		arr[i].height = abs((int)(cub->wy / arr[i].trans_y));
 		draw_sprite(cub, &cam->ray, &arr[i], &cub->text[4]);
+		mlx_put_image_to_window(cub->mlx, cub->win, cub->img.ptr, 0, 0);
 		i++;
 	}
 }

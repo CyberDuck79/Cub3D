@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 14:20:33 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/29 16:18:30 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/31 11:15:23 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int			close_game(t_cub3d *cub)
 	free(cub->cam.ray.z_buf);
 	mlx_destroy_image(cub->mlx, cub->img.ptr);
 	mlx_destroy_window(cub->mlx, cub->win);
-	system("leaks a.out");
+	system("leaks cub3d");
 	exit(1);
 	return (0);
 }
