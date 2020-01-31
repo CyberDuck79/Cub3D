@@ -6,13 +6,13 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 17:18:49 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/31 09:51:57 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/31 11:53:55 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-int			**escape_free_map(int **map, int index_stop)
+int		**escape_free_map(int **map, int index_stop)
 {
 	int		index;
 
@@ -26,7 +26,7 @@ int			**escape_free_map(int **map, int index_stop)
 	return (NULL);
 }
 
-void		print_fps(t_cub3d *cub)
+void	print_fps(t_cub3d *cub)
 {
 	double	frame_time;
 
@@ -37,7 +37,7 @@ void		print_fps(t_cub3d *cub)
 	printf("%f\n", 60.0 / frame_time);
 }
 
-void		sort_sprites(t_sprite *sprites, int sprites_nb)
+void	sort_sprites(t_sprite *sprites, int sprites_nb)
 {
 	int			i;
 	int			sorted;
@@ -62,7 +62,7 @@ void		sort_sprites(t_sprite *sprites, int sprites_nb)
 	}
 }
 
-int			apply_fog(double dist, int texel)
+int		apply_fog(double dist, int texel)
 {
 	int rgb[4];
 
@@ -70,14 +70,23 @@ int			apply_fog(double dist, int texel)
 	rgb[1] = (texel >> 8) & 0xFF;
 	rgb[2] = (texel >> 16) & 0xFF;
 	rgb[3] = (texel >> 24) & 0xFF;
-	rgb[0] -= (int)dist + 8;
+	rgb[0] -= (int)dist + 4;
 	if (rgb[0] < 0x10)
 		rgb[0] = 0x10;
-	rgb[1] -= (int)dist + 8;
+	rgb[1] -= (int)dist + 4;
 	if (rgb[1] < 0x10)
 		rgb[1] = 0x10;
-	rgb[2] -= (int)dist + 8;
+	rgb[2] -= (int)dist + 4;
 	if (rgb[2] < 0x10)
 		rgb[2] = 0x10;
 	return (rgb[0] | rgb[1] << 8 | rgb[2] << 16 | rgb[3] << 24);
+}
+
+void	draw_transparency(t_cub3d *cub, int texel, int pos)
+{
+	int transparency;
+	
+	transparency = (texel >> 24) & 0xFF;
+	if (transparency != 0xFF)
+		cub->img.addr[pos] = texel;
 }

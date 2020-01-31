@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 14:20:33 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/31 11:15:23 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/31 11:36:43 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int			close_game(t_cub3d *cub)
 	free(cub->map.sprites);
 	free(cub->cam.ray.z_buf);
 	mlx_destroy_image(cub->mlx, cub->img.ptr);
+	mlx_destroy_image(cub->mlx, cub->sprite_img.ptr);
 	mlx_destroy_window(cub->mlx, cub->win);
 	system("leaks cub3d");
 	exit(1);
@@ -81,6 +82,10 @@ static void	env_init(t_cub3d *cub)
 	cub->img.addr = (int*)mlx_get_data_addr(cub->img.ptr, &cub->img.bpp,\
 	&cub->img.size_l, &cub->img.endian);
 	cub->img.bpp /= 8;
+	cub->sprite_img.ptr = mlx_new_image(cub->mlx, cub->wx, cub->wy);
+	cub->sprite_img.addr = (int*)mlx_get_data_addr(cub->sprite_img.ptr,\
+	&cub->sprite_img.bpp, &cub->sprite_img.size_l, &cub->sprite_img.endian);
+	cub->sprite_img.bpp /= 8;
 	cub->time = clock();
 	cub->cam.ray.z_buf = malloc(cub->wx * sizeof(double));
 	if (cub->cam.ray.z_buf == NULL)

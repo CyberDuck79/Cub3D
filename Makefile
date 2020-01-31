@@ -6,7 +6,7 @@
 #    By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/10 23:15:25 by lmarques          #+#    #+#              #
-#    Updated: 2020/01/31 11:27:16 by fhenrion         ###   ########.fr        #
+#    Updated: 2020/01/31 13:25:56 by fhenrion         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,7 @@ $(OBJ):
 	&& echo $(GREEN)[ ✓ ] [ Objects Successfully Compiled ]$(WHITE) \
 	|| (echo $(RED)[ ✗ ] [ Program Compilation Fail ]"; exit 1)
 
-bonus: $(OBJ)
+bonus: bonus_obj
 	echo $(YELLOW)[...] [ Compiling Librairies ]$(WHITE)
 	echo $(YELLOW)[...] [ Compiling libft ]$(WHITE)
 	make -C libft \
@@ -66,9 +66,15 @@ bonus: $(OBJ)
 	mv minilibx/libmlx.a .
 	mv libft/libft.a .
 	echo $(YELLOW)[...] [ Compiling Executable ]$(WHITE)
-	$(CC) $(CFLAGS) -I. -L. -lft -lmlx \
-	-framework OpenGL -framework Appkit -D BONUS=1 $^ -o $(NAME) \
+	$(CC) $(CFLAGS) -DBONUS=1 -I. -L. -lft -lmlx \
+	-framework OpenGL -framework Appkit $(OBJ) -o $(NAME) \
 	&& echo $(GREEN)[ ✓ ] [ Program Successfully Compiled ]$(WHITE) \
+	|| (echo $(RED)[ ✗ ] [ Program Compilation Fail ]"; exit 1)
+
+bonus_obj:
+	echo $(YELLOW)[...] [ Compiling Objects ]$(WHITE)
+	$(CC) $(CFLAGS) -DBONUS=1 -c $(SRCS) \
+	&& echo $(GREEN)[ ✓ ] [ Objects Successfully Compiled ]$(WHITE) \
 	|| (echo $(RED)[ ✗ ] [ Program Compilation Fail ]"; exit 1)
 
 clean:

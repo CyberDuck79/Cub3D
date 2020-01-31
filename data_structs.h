@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 11:52:35 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/29 19:55:15 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/01/31 11:36:03 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ typedef struct	s_cub3d
 	int			color[2];
 	t_text		text[5];
 	t_img		img;
+	t_img		sprite_img;
 	t_map		map;
 	t_cam		cam;
 	t_move		move;
