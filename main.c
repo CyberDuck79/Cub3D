@@ -6,7 +6,7 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 14:20:33 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/31 11:36:43 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/02/06 18:59:00 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int			close_game(t_cub3d *cub)
 	mlx_destroy_image(cub->mlx, cub->img.ptr);
 	mlx_destroy_image(cub->mlx, cub->sprite_img.ptr);
 	mlx_destroy_window(cub->mlx, cub->win);
-	system("leaks cub3d");
 	exit(1);
 	return (0);
 }
@@ -63,7 +62,7 @@ static void	camera_init(t_cam *cam, t_map *map)
 	else if (map->start_dir == 'W' || map->start_dir == 'E')
 	{
 		cam->dir_x = map->start_dir == 'W' ? -1 : 1;
-		cam->plane_y = map->start_dir == 'W' ? 0.66 : -0.66;
+		cam->plane_y = map->start_dir == 'W' ? -0.66 : 0.66;
 	}
 	cam->ms = 0.05;
 	cam->rs = 0.05;
@@ -96,21 +95,20 @@ int			main(int ac, char **av)
 {
 	t_cub3d	cub;
 	t_error	error;
-	int		save;
 
-	save = (ac >= 2 && !ft_strcmp(av[1], "-save"));
-	if (ac < (2 + save))
+	if (ac == 3 && ft_strcmp(av[2], "-save"))
+		return (print_error(ARGUMENT));
+	else if (ac != 2 && ac != 3)
 		return (print_error(ARGUMENT));
 	ft_bzero(&cub, sizeof(t_cub3d));
 	cub.mlx = mlx_init();
-	if ((error = file_parser(&cub, av[1 + save])))
+	if ((error = file_parser(&cub, av[1])))
 		return (print_error(error));
 	env_init(&cub);
 	camera_init(&cub.cam, &cub.map);
-	frame(&cub, &cub.cam);
-	if (save && save_bmp(&cub))
+	if (ac == 3 && save_bmp(&cub))
 		return (print_error(OPEN_FILE));
-	else if (!save)
+	else if (ac == 2)
 	{
 		mlx_hook(cub.win, 17, 0L, close_game, &cub);
 		mlx_hook(cub.win, 2, (1L << 0), key_press, &cub);

@@ -6,11 +6,12 @@
 /*   By: fhenrion <fhenrion@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 09:34:10 by fhenrion          #+#    #+#             */
-/*   Updated: 2020/01/31 17:02:39 by fhenrion         ###   ########.fr       */
+/*   Updated: 2020/02/06 10:39:53 by fhenrion         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
+#include "ray_casting.h"
 
 static t_error	write_header(t_cub3d *cub, int fd, int size)
 {
@@ -24,7 +25,7 @@ static t_error	write_header(t_cub3d *cub, int fd, int size)
 	header_buf[14] = (unsigned char)(40);
 	ft_memcpy(header_buf + 18, &cub->wx, sizeof(int));
 	ft_memcpy(header_buf + 22, &cub->wy, sizeof(int));
-	header_buf[27] = (unsigned char)(1);
+	header_buf[26] = (unsigned char)(1);
 	header_buf[28] = (unsigned char)(24);
 	return ((write(fd, header_buf, 54) == 54) ? OK : OPEN_FILE);
 }
@@ -64,8 +65,9 @@ t_error			save_bmp(t_cub3d *cub)
 
 	if ((fd = open("screenshot.bmp", O_WRONLY | O_CREAT, 0644)) < 0)
 		return (OPEN_FILE);
+	frame(cub, &cub->cam);
 	pad_size = (4 - (cub->wx * 3) % 4) % 4;
-	size = 54 + (3 * (cub->wx + pad_size) * cub->wy);
+	size = 54 + ((3 * cub->wx) + pad_size) * cub->wy;
 	if (write_header(cub, fd, size))
 		return (OPEN_FILE);
 	if (write_data(cub, fd, pad_size))
